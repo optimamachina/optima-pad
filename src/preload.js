@@ -1,0 +1,25 @@
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('api', {
+  init: () => ipcRenderer.invoke('init'),
+  unlock: (password) => ipcRenderer.invoke('unlock', password),
+  setLock: (password) => ipcRenderer.invoke('set-lock', password),
+  removeLock: (password) => ipcRenderer.invoke('remove-lock', password),
+  save: (payload) => ipcRenderer.invoke('save', payload),
+  openDialog: (pristine) => ipcRenderer.invoke('open-dialog', pristine),
+  newWindow: () => ipcRenderer.send('new-window'),
+  setOnTop: (on) => ipcRenderer.send('set-on-top', on),
+  getRecent: () => ipcRenderer.invoke('get-recent'),
+  openRecent: (p) => ipcRenderer.send('open-recent', p),
+  reopenClosed: () => ipcRenderer.invoke('reopen-closed'),
+  openExternal: (url) => ipcRenderer.send('open-external', url),
+  paste: () => ipcRenderer.send('paste'),
+  close: () => ipcRenderer.send('close-window'),
+  setSettings: (s) => ipcRenderer.send('set-settings', s),
+  setChrome: (c) => ipcRenderer.send('set-chrome', c),
+  pickBackground: () => ipcRenderer.invoke('pick-background'),
+  getBackground: () => ipcRenderer.invoke('get-background'),
+  closeReady: (info) => ipcRenderer.send('close-ready', info),
+  onSettings: (fn) => ipcRenderer.on('settings', (_e, s) => fn(s)),
+  onBeforeClose: (fn) => ipcRenderer.on('before-close', () => fn()),
+});

@@ -1,0 +1,69 @@
+{
+  "name": "optima-pad",
+  "productName": "Optima Pad",
+  "version": "1.12.0",
+  "description": "A minimalist, calm notes app. One note, one file.",
+  "main": "src/main.js",
+  "author": "optima machina",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "fonts": "node scripts/copy-fonts.js",
+    "dist": "electron-builder --win nsis",
+    "postinstall": "node node_modules/electron/install.js"
+  },
+  "build": {
+    "appId": "com.optimapad.app",
+    "productName": "Optima Pad",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "fileAssociations": [
+      {
+        "ext": "opad",
+        "name": "OptimaPad.Document",
+        "description": "Opad document",
+        "icon": "build/icon.ico",
+        "role": "Editor"
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": true
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Optima Pad",
+      "artifactName": "Optima-Pad-Setup-${version}.${ext}",
+      "include": "build/installer.nsh"
+    },
+    "electronFuses": {
+      "runAsNode": false,
+      "enableCookieEncryption": true,
+      "enableNodeOptionsEnvironmentVariable": false,
+      "enableNodeCliInspectArguments": false,
+      "enableEmbeddedAsarIntegrityValidation": true,
+      "onlyLoadAppFromAsar": true
+    }
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/lexend": "^5.3.0",
+    "@fontsource-variable/literata": "^5.3.0",
+    "@fontsource/atkinson-hyperlegible": "^5.3.0",
+    "@fontsource/eb-garamond": "^5.3.0",
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3"
+  }
+}

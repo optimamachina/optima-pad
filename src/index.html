@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" data-theme="paper">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'">
+  <title>Optima Pad</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="wall"></div>
+  <header id="bar">
+    <div id="pinzone"><button id="pin" title="Keep on top" aria-label="Keep this note on top" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.6 2.4l4 4-1.6.6-2.4 2.4.3 2.9-1 1-2.6-2.6-3.1 3.1-.6-.6 3.1-3.1L3.1 7.5l1-1 2.9.3 2.4-2.4z"/></svg></button></div>
+    <div id="title"><svg id="lockmark" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="7" width="9" height="6.5" rx="1.8"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7"/></svg><span id="name">Untitled</span><span id="zoomlvl"></span></div>
+  </header>
+
+  <div id="stats" class="pop hidden"></div>
+
+  <main id="scroller">
+    <div id="board">
+      <div id="column" class="ed" contenteditable="true" spellcheck="false" data-placeholder="Start writing…"></div>
+    </div>
+  </main>
+
+  <div id="ctx" class="pop hidden" role="menu">
+    <button data-act="copy" role="menuitem">Copy</button>
+    <button data-act="paste" role="menuitem">Paste</button>
+    <div class="ctx-sep"></div>
+    <button data-act="more" role="menuitem">More</button>
+  </div>
+
+  <div id="find" class="pop hidden" role="search">
+    <input id="find-q" type="text" placeholder="Find" spellcheck="false" autocomplete="off" aria-label="Find in this note">
+    <span id="find-n"></span>
+    <button id="find-prev" title="Previous (Shift+Enter)" aria-label="Previous match"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 10 8 6.5l3.5 3.5"/></svg></button>
+    <button id="find-next" title="Next (Enter)" aria-label="Next match"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 6.5 8 10l3.5-3.5"/></svg></button>
+    <button id="find-close" title="Close (Esc)" aria-label="Close search"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 5l6 6M11 5l-6 6"/></svg></button>
+  </div>
+
+  <div id="panel" class="pop hidden">
+    <div id="themes"></div>
+    <label id="sizer" title="Text size">
+      <span class="a-small">A</span>
+      <input id="size" type="range" min="14" max="26" step="1" aria-label="Text size">
+      <span class="a-big">A</span>
+    </label>
+    <div id="fonts"></div>
+    <div id="acts">
+    <button id="doodle" class="act"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 13.5c1.6-.2 2.4-1.4 3.4-3.2 1-1.9 2-3.8 3.9-3.8 1.5 0 1.6 1.6.6 2.6-1.3 1.4-1.2 3.1.6 3.1 1.1 0 2-.6 2.6-1.4"/></svg>Doodle</button>
+    <button id="recent-btn" class="act" aria-expanded="false"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.6"/><path d="M8 5v3.2l2.1 1.4"/></svg>Open recent<span class="chev"></span></button>
+    <div id="recent" class="hidden"></div>
+    </div>
+  </div>
+
+  <div id="imghandle" class="hidden"></div>
+
+  <div id="tour" class="hidden">
+    <div class="pop" id="tour-card">
+      <div id="tour-title">Welcome to Optima Pad</div>
+      <p>Write in the middle. Click anywhere outside it to drop a floating note.</p>
+      <ul>
+        <li><kbd>Ctrl</kbd><kbd>1</kbd> size <span class="dot">·</span> <kbd>Ctrl</kbd><kbd>2</kbd> color <span class="dot">·</span> <kbd>Ctrl</kbd><kbd>3</kbd> soft box</li>
+        <li><kbd>Ctrl</kbd><kbd>4</kbd> or middle-click: fonts, themes, text size, backgrounds, doodles, recent notes</li>
+        <li><kbd>Ctrl</kbd> + scroll to zoom around <span class="dot">·</span> <kbd>Ctrl</kbd><kbd>L</kbd> to lock with a password <span class="dot">·</span> <kbd>Ctrl</kbd><kbd>F</kbd> to find</li>
+        <li>Hold <kbd>-</kbd> for a divider <span class="dot">·</span> <kbd>Alt</kbd><kbd>C</kbd> ✓ <span class="dot">·</span> <kbd>Alt</kbd><kbd>X</kbd> ✗ <span class="dot">·</span> <kbd>Ctrl</kbd><kbd>-</kbd> strike <span class="dot">·</span> <kbd>Tab</kbd> indents <span class="dot">·</span> <kbd>-</kbd> <kbd>space</kbd> starts a bullet <span class="dot">·</span> <kbd>Del</kbd> in a box removes the whole box</li>
+        <li>Drag an image's corner to resize it <span class="dot">·</span> drag a box's right edge to set its width <span class="dot">·</span> <kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>T</kbd> reopens the last closed note</li>
+        <li><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>O</kbd> from anywhere: a quick little note <span class="dot">·</span> hover the top-left corner to pin a note on top <span class="dot">·</span> hover the name for a word count</li>
+      </ul>
+      <p>Everything saves itself. <kbd>Ctrl</kbd><kbd>S</kbd> gives a note its name and home.</p>
+      <div id="tour-foot">click anywhere to begin</div>
+    </div>
+  </div>
+
+  <div id="veil" class="hidden">
+    <form id="modal" class="pop" autocomplete="off">
+      <div id="m-title"></div>
+      <div id="m-fields"></div>
+      <div id="m-hint"></div>
+      <div id="m-err"></div>
+      <div id="m-actions">
+        <button type="button" id="m-cancel" class="ghost">Cancel</button>
+        <button type="submit" id="m-ok">OK</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="toast" class="hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
